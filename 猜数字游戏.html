@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    #result {
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    button {
+      background-color: red;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .number-button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+  <title>猜数字游戏</title>
+</head>
+<body>
+  <h1>猜数字游戏</h1>
+  <p>请点击以下数字进行猜测：</p>
+  <div id="number-buttons">
+    <!-- 使用循环生成数字按钮 -->
+    <button class="number-button" onclick="makeGuess(1)">
+        <img src="tupian1.png" alt="1">
+      </button>
+      <button class="number-button" onclick="makeGuess(2)">
+        <img src="2.webp" alt="2">
+      </button>
+    <button class="number-button" onclick="makeGuess(1)">1</button>
+    <button class="number-button" onclick="makeGuess(2)">2</button>
+    <button class="number-button" onclick="makeGuess(3)">3</button>
+    <button class="number-button" onclick="makeGuess(4)">4</button>
+    <button class="number-button" onclick="makeGuess(5)">5</button>
+    <button class="number-button" onclick="makeGuess(6)">6</button>
+    <button class="number-button" onclick="makeGuess(7)">7</button>
+    <button class="number-button" onclick="makeGuess(8)">8</button>
+    <button class="number-button" onclick="makeGuess(9)">9</button>
+    <button class="number-button" onclick="makeGuess(10)">10</button>
+  </div>
+  <p id="result"></p>
+  <button onclick="restartGame()">重新开始</button>
+
+  <script>
+    let randomNumber, attempts;
+
+    function startNewGame() {
+      randomNumber = Math.floor(Math.random() * 10) + 1;
+      attempts = 3;
+      displayResult('');
+      enableButtons();
+    }
+
+    function makeGuess(number) {
+      if (attempts === 0) {
+        return;
+      }
+
+      checkGuess(number);
+    }
+
+    function checkGuess(userGuess) {
+      if (userGuess === randomNumber) {
+        displayResult('恭喜你，猜对了！');
+        disableButtons();
+      } else {
+        attempts--;
+
+        if (attempts === 0) {
+          displayResult(`很抱歉，你已经用完了所有机会。正确答案是 ${randomNumber}。`);
+          disableButtons();
+        } else {
+          const hint = userGuess > randomNumber ? '大了' : '小了';
+          displayResult(`猜错了！剩余次数: ${attempts}。提示: ${hint}`);
+        }
+      }
+    }
+
+    function displayResult(message) {
+      document.getElementById('result').textContent = message;
+    }
+
+    function disableButtons() {
+      const buttons = document.querySelectorAll('.number-button');
+      buttons.forEach(button => button.disabled = true);
+    }
+
+    function enableButtons() {
+      const buttons = document.querySelectorAll('.number-button');
+      buttons.forEach(button => button.disabled = false);
+    }
+
+    function restartGame() {
+      startNewGame();
+    }
+
+    // 开始新游戏
+    startNewGame();
+  </script>
+</body>
+</html>
